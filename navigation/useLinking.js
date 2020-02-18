@@ -9,6 +9,9 @@ export default function(containerRef) {
         path: 'root',
         screens: {
           Home: 'home',
+          Orders: 'orders',
+          Chat: 'chat',
+          Account: 'account',
           Links: 'links',
           Settings: 'settings',
         },
