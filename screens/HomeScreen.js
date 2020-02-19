@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import {useDispatch, useSelector} from 'react-redux'
 import {
   Image,
   Platform,
@@ -11,36 +12,31 @@ import {
 import { ScrollView } from "react-native-gesture-handler";
 import Cell from "../components/Cell";
 import {LogInButton, SingUpButton} from '../components/SigningButtons'
+import {actionSetMain} from '../reducer/actionCreators'
 
 const URL =
   "https://s3.amazonaws.com/staginggooduncledigests/products_istcki0x000h28d97a9rv9jp.json";
 
 export default function HomeScreen({navigation}) {
+
+ 
+  const dispatch = useDispatch()
+  const main = useSelector(state => state.mainReducer.main) 
+
   useEffect(() => {
     fetch(URL)
       .then(resp => resp.json())
       .then(data => {
-        console.log("New Fetch");
-        // console.log(data.digestData.mains.length)
-        // console.log(mains.length)
-        const mains = data.digestData.mains;
-        setBowls(mains);
 
-        // for ( i=0 ; i < mains.length; i++) {
-        //   console.log(mains[i].name)
-        // }
+        const mains = data.digestData.mains;
+        dispatch(actionSetMain(mains))
+
       });
   }, []);
 
-  const [bowls, setBowls] = useState([]);
-  // const [chickenDips, setChickenDips] = useState([])
-  // const [pasta, setPasta] = useState([])
-  // const [plates, setPlates] = useState([])
-  // const [salads, setSalads] = useState([])
-  // const [sides, setSides] = useState([])
-  // const [sweets, setSweets] = useState([])
-  // const [drinks, setDrinks] = useState([])
-  // const [snacks, setSnacks] = useState([])
+  
+
+
 
 
 
@@ -57,7 +53,7 @@ export default function HomeScreen({navigation}) {
           </Text>
         </View>
         <FlatList
-          data={bowls}
+          data={main}
           renderItem={({ item, index }) => <Cell item={item} key={index} />}
         />
       </ScrollView>

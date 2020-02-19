@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {View, Text, TextInput, StyleSheet, TouchableOpacity} from 'react-native'
 import { ScrollView } from "react-native-gesture-handler";
-import { Updates } from 'expo';
+import {_storeData} from '../fetch/fetch'
 
 export default function SignupPage(){
 
@@ -10,12 +10,13 @@ export default function SignupPage(){
     // const [send, setSend] = useState(false)
 
     const readyToSend = () => {
-
-        if (password.length > 6 && phone.length === 10){
-            return true
-        }
+        if (password.length > 6 && phone.length === 10) return true
         return false
+    }
 
+    const  postingUser =  (userPhone) => {
+        _storeData(userPhone) 
+        
     }
 
     return (
@@ -49,7 +50,7 @@ export default function SignupPage(){
                 />
                 <TouchableOpacity 
                     onPress={()=> {
-                        if (readyToSend()) console.log("ready to send pra caralho")
+                        if (readyToSend()) postingUser(phone)
                     }} 
                     style={[styles.buttonContainer, readyToSend() && styles.buttonSend]}
                 >

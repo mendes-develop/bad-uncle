@@ -29,9 +29,6 @@ export default function LandScreen({navigation}) {
         <View style={styles.containerButtons}>
         
           <LogInButton title="Log in" navigation={navigation}/>
-        
-          
-        
           <SingUpButton title="Sign up" navigation={navigation}/>
         
           
@@ -55,7 +52,7 @@ const styles = StyleSheet.create({
   },
   containerImage: {
     flex: 5,
-    marginTop: 100,
+    paddingTop: 100,
     // borderWidth: 5
   },
   image: {
@@ -67,7 +64,9 @@ const styles = StyleSheet.create({
   },
 
   containerBottom: {
-    flex: 1
+    flex: 1,
+    bottom: 0,
+    marginBottom: 10
   },
 
   containerButtons: {
