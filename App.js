@@ -6,10 +6,16 @@ import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
+
+//Navigation Controllers
 import BottomTabNavigator from './navigation/BottomTabNavigator';
+import SigningNavigator from './navigation/SigningNavigator'
 import useLinking from './navigation/useLinking';
 
-const Stack = createStackNavigator();
+// Navigation Stacks
+const RootStack = createStackNavigator();
+const MainStack = createStackNavigator();
+const LandStack = createStackNavigator();
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
@@ -46,20 +52,57 @@ export default function App(props) {
   if (!isLoadingComplete && !props.skipLoadingScreen) {
     return null;
   } else {
+
     return (
       <View style={styles.container}>
         {Platform.OS === 'ios' && <StatusBar barStyle="dark-content" />}
-        <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
-          <Stack.Navigator>
 
-            <Stack.Screen name="Root" component={BottomTabNavigator} />
-            
-          </Stack.Navigator>
+        <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
+          <RootStack.Navigator initialRouteName="Land">
+
+            <RootStack.Screen 
+              name="Register" 
+              component={LandStackScreen} 
+              options={{headerShown: false}}
+            />
+
+            <RootStack.Screen 
+              name="Main"
+              component={MainStackScreen}
+              options={{headerShown: false}}
+            />
+
+          </RootStack.Navigator>
         </NavigationContainer>
+
+
+
       </View>
     );
   }
 }
+
+//Pages related to signing process Navigation Controller 
+function LandStackScreen(){
+  return (
+    <LandStack.Navigator>
+      <LandStack.Screen 
+        name="Nav" 
+        component={SigningNavigator} 
+        options={{headerShown: false}}
+      />
+    </LandStack.Navigator>
+  )
+}
+//Pages related to app's main functionality Tab Controller
+function MainStackScreen(){
+  return (
+    <MainStack.Navigator>
+      <MainStack.Screen name="Tab" component={BottomTabNavigator} />
+    </MainStack.Navigator>
+  )
+}
+
 
 const styles = StyleSheet.create({
   container: {

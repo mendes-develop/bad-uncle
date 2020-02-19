@@ -10,11 +10,12 @@ import {
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import Cell from "../components/Cell";
+import {LogInButton, SingUpButton} from '../components/SigningButtons'
 
 const URL =
   "https://s3.amazonaws.com/staginggooduncledigests/products_istcki0x000h28d97a9rv9jp.json";
 
-export default function HomeScreen() {
+export default function HomeScreen({navigation}) {
   useEffect(() => {
     fetch(URL)
       .then(resp => resp.json())
@@ -41,20 +42,7 @@ export default function HomeScreen() {
   // const [drinks, setDrinks] = useState([])
   // const [snacks, setSnacks] = useState([])
 
-  const singUpButton = (title) => {
-    return (
-      <TouchableOpacity style={styles.signupButton}>
-        <Text style={styles.buttonText}>{title.toUpperCase()}</Text>
-      </TouchableOpacity>
-    );
-  };
-  const logInButton = (title) => {
-    return (
-      <TouchableOpacity style={styles.loginButton}>
-        <Text style={styles.buttonText}>{title.toUpperCase()}</Text>
-      </TouchableOpacity>
-    );
-  };
+
 
   return (
     <View style={styles.container}>
@@ -74,9 +62,9 @@ export default function HomeScreen() {
         />
       </ScrollView>
 
-      <View style={styles.tabBarInfoContainer}>
-        {logInButton("Log in")}
-        {singUpButton("Sign up")}
+      <View style={styles.containerButtons}>
+        <LogInButton title="log in" navigation={navigation}/>
+        <SingUpButton title="Sign up" navigation={navigation}/>
       </View>
     </View>
   );
@@ -102,30 +90,8 @@ const styles = StyleSheet.create({
   },
 
   //Alex Layout
-  buttonText: {
-    textAlign: "center",
-    color: "#ecf0f1",
-    fontSize: 15,
-    fontWeight: 'bold'
-  },
-  loginButton: {
-    height: 55,
-    borderRadius: 30,
-    borderWidth: 2,
-    borderColor: "#05db6a",
-    paddingVertical: 10,
-    paddingHorizontal: 70,
-    justifyContent: "center"
-  },
-  signupButton: {
-    height: 55,
-    borderRadius: 30,
-    backgroundColor: "#05db6a",
-    paddingVertical: 10,
-    paddingHorizontal: 70,
-    justifyContent: "center"
-  },
-  tabBarInfoContainer: {
+
+  containerButtons: {
     position: "absolute",
     bottom: 0,
     left: 0,

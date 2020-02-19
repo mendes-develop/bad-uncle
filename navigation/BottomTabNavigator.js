@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import TabBarIcon from '../components/TabBarIcon';
+import LandScreen from '../screens/LandScreen'
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen'
 import Orders from '../screens/Orders';
@@ -48,13 +49,14 @@ export default function BottomTabNavigator({ navigation, route }) {
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-person" />,
         }}
       />
+      
     </BottomTab.Navigator>
   );
 }
 
 function getHeaderTitle(route) {
   const routeName = route.state?.routes[route.state.index]?.name ?? INITIAL_ROUTE_NAME;
-
+  // console.log(route)
   switch (routeName) {
     case 'Home':
       return 'Meal Drinks & Snacks';
