@@ -8,39 +8,9 @@ const store = createStore(
     combineReducers({userReducer, orderReducer, mainReducer})
 )
 
-store.subscribe(()=> {
-    console.log("store updated!", store.getState())
-})
-
-// export default function ReduxConfig(){
-
-//     return (
-//         <Provider store={store}>
-//             <App/>
-//         </Provider>
-//     )
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// store.subscribe(()=> {
+//     console.log("store updated!", store.getState())
+// })
 
 import * as React from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
@@ -105,6 +75,8 @@ export default function App(props) {
         <View style={styles.container}>
           {Platform.OS === 'ios' && <StatusBar barStyle="dark-content" />}
 
+          
+
           <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
             <RootStack.Navigator initialRouteName="Land">
 
@@ -117,7 +89,7 @@ export default function App(props) {
               <RootStack.Screen 
                 name="Main"
                 component={MainStackScreen}
-                options={{headerShown: false}}
+                options={{headerShown: false, tabBarVisible: false}}
               />
 
             </RootStack.Navigator>

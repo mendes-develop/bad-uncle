@@ -2,11 +2,12 @@ import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import TabBarIcon from '../components/TabBarIcon';
 import LandScreen from '../screens/LandScreen'
-import HomeScreen from '../screens/HomeScreen';
+import HomeStackNavigator from './HomeStackNavigator';
 import LinksScreen from '../screens/LinksScreen'
 import Orders from '../screens/Orders';
 import Chat from '../screens/Chat';
 import Account from '../screens/Account';
+// import ItemDetail from '../screens/ItemDetail';
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Home';
@@ -14,14 +15,14 @@ const INITIAL_ROUTE_NAME = 'Home';
 export default function BottomTabNavigator({ navigation, route }) {
 
   navigation.setOptions({ headerTitle: getHeaderTitle(route) });
+  
 
   return (
-    <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME}>
+    <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME} >
       <BottomTab.Screen
         name="Home"
-        component={HomeScreen}
+        component={HomeStackNavigator}
         options={{
-          // title: 'Get Started',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-home" />,
         }}
       />

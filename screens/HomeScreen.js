@@ -10,7 +10,7 @@ import {
   FlatList
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import Cell from "../components/Cell";
+import Cell from "../components/CellHomeScreen";
 import {LogInButton, SingUpButton} from '../components/SigningButtons'
 import {actionSetMain} from '../reducer/actionCreators'
 
@@ -34,12 +34,6 @@ export default function HomeScreen({navigation}) {
       });
   }, []);
 
-  
-
-
-
-
-
   return (
     <View style={styles.container}>
       <ScrollView
@@ -54,7 +48,7 @@ export default function HomeScreen({navigation}) {
         </View>
         <FlatList
           data={main}
-          renderItem={({ item, index }) => <Cell item={item} key={index} />}
+          renderItem={({ item, index }) => <Cell item={item} key={index} navigation={navigation}/>}
         />
       </ScrollView>
 
@@ -104,6 +98,7 @@ const styles = StyleSheet.create({
       }
     }),
     alignItems: "center",
+    // backgroundColor: 'rgba(52, 52, 52, 0)',
     backgroundColor: "#fbfbfb",
     paddingVertical: 20,
     flex: 1,

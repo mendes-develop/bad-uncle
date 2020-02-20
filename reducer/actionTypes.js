@@ -5,3 +5,5 @@ export const addOrder = "ADD_ORDER"
 export const removeOrder = "REMOVE_ORDER"
 
 export const setMain = "SET_MAIN"
+
+//Sign in, sign out and restore token
