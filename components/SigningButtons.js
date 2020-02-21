@@ -4,8 +4,11 @@ import {
   TouchableOpacity,
   StyleSheet
 } from "react-native";
+import { useNavigation } from '@react-navigation/native';
 
-export const SingUpButton = ({title, navigation, route}) => {
+export const SingUpButton = ({title}) => {
+
+  const navigation = useNavigation()
     return (
       <TouchableOpacity onPress={()=> navigation.navigate('Signup')} style={[styles.signupButton, styles.button]}>
         <Text style={[styles.signupText, styles.buttonText]}>{title.toUpperCase()}</Text>
@@ -13,7 +16,8 @@ export const SingUpButton = ({title, navigation, route}) => {
     );
 };
 
-export const LogInButton = ({title, navigation}) => {
+export const LogInButton = ({title}) => {
+  const navigation = useNavigation()
     return (
       <TouchableOpacity onPress={()=> navigation.navigate('Login')} style={[styles.loginButton, styles.button]}>
         <Text style={[styles.loginText, styles.buttonText]}>{title.toUpperCase()}</Text>

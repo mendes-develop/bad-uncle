@@ -11,6 +11,7 @@ import {
 import { ButtonPlus, ButtonMinus } from "./PlusMinusButton";
 
 export default function CellItemDetail({ item, navigation }) {
+    // console.log(item)
   return (
     <View style={styles.container}>
       <View style={styles.buttonsContainer}>

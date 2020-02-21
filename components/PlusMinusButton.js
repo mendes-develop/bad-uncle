@@ -3,17 +3,17 @@ import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 
 export function ButtonPlus() {
   return (
-    <TouchableOpacity style={[styles.buttonContainer, styles.buttonPlus]}>
+    <View style={[styles.buttonContainer, styles.buttonPlus]}>
       <Text style={styles.textPlus}> + </Text>
-    </TouchableOpacity>
+    </View>
   );
 }
 
 export function ButtonMinus() {
   return (
-    <TouchableOpacity style={[styles.buttonContainer, styles.buttonMinus]}>
+    <View style={[styles.buttonContainer, styles.buttonMinus]}>
       <Text style={styles.textMinus}>-</Text>
-    </TouchableOpacity>
+    </View>
   );
 }
 
@@ -41,10 +41,6 @@ const styles = StyleSheet.create({
   },
   textMinus: {
     color: "#f1f1f1",
-    fontWeight: "bold",
-    fontSize: 20
-  },
-  subtitle: {
     fontWeight: "bold",
     fontSize: 20
   }

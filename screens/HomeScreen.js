@@ -48,13 +48,13 @@ export default function HomeScreen({navigation}) {
         </View>
         <FlatList
           data={main}
-          renderItem={({ item, index }) => <Cell item={item} key={index} navigation={navigation}/>}
+          renderItem={({ item, index }) => <Cell item={item} key={index}/>}
         />
       </ScrollView>
 
       <View style={styles.containerButtons}>
-        <LogInButton title="log in" navigation={navigation}/>
-        <SingUpButton title="Sign up" navigation={navigation}/>
+        <LogInButton title="log in" />
+        <SingUpButton title="Sign up" />
       </View>
     </View>
   );
