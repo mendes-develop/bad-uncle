@@ -4,14 +4,6 @@ import { Provider } from 'react-redux'
 import {createStore, combineReducers} from 'redux'
 import {userReducer, orderReducer, mainReducer} from './reducer/reducers'
 
-const store = createStore(
-    combineReducers({userReducer, orderReducer, mainReducer})
-)
-
-// store.subscribe(()=> {
-//     console.log("store updated!", store.getState())
-// })
-
 import * as React from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { _retrieveData } from './fetch/fetch'
@@ -31,6 +23,11 @@ const RootStack = createStackNavigator();
 const MainStack = createStackNavigator();
 const LandStack = createStackNavigator();
 
+const store = createStore(
+  combineReducers({userReducer, orderReducer, mainReducer})
+)
+
+
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
@@ -40,6 +37,8 @@ export default function App(props) {
 
   // Load any resources or data that we need prior to rendering the app
   React.useEffect(() => {
+
+  
     async function loadResourcesAndDataAsync() {
       try {
         SplashScreen.preventAutoHide();
