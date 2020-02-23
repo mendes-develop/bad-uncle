@@ -27,7 +27,9 @@ const store = createStore(
   combineReducers({userReducer, orderReducer, mainReducer})
 )
 
-
+// store.subscribe(()=> {
+//     console.log("store updated!", store.getState().orderReducer)
+// })
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);

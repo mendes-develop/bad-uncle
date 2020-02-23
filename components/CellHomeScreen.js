@@ -6,11 +6,9 @@ import { useNavigation } from '@react-navigation/native';
 export default function Cell({item}){
 
     const navigation = useNavigation()
-    const { name, productOptions } = item 
-    const productPrice = productOptions[0].price
+    const { name, productPrice } = item 
 
     const formatPrice = (price) => {
-        // console.log(price)
         const amount = (price/100).toFixed(2) 
         return `$ ${amount}`
     }

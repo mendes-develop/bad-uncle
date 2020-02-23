@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import {useDispatch, useSelector} from 'react-redux'
+import { useDispatch, useSelector } from "react-redux";
 import {
   Image,
   Platform,
@@ -7,55 +7,76 @@ import {
   Text,
   TouchableOpacity,
   View,
-  FlatList
+  FlatList,
+  SafeAreaView
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import Cell from "../components/CellHomeScreen";
-import {LogInButton, SingUpButton} from '../components/SigningButtons'
-import {actionSetMain} from '../reducer/actionCreators'
+import { LogInButton, SingUpButton } from "../components/SigningButtons";
+import { actionSetMain } from "../reducer/actionCreators";
+import CheckoutLabel from "../components/CheckoutLabel";
 
 const URL =
   "https://s3.amazonaws.com/staginggooduncledigests/products_istcki0x000h28d97a9rv9jp.json";
 
-export default function HomeScreen({navigation}) {
-
- 
-  const dispatch = useDispatch()
-  const main = useSelector(state => state.mainReducer.main) 
+export default function HomeScreen({ navigation }) {
+  const dispatch = useDispatch();
+  const main = useSelector(state => state.mainReducer.main);
+  const subtotal = useSelector(state => state.orderReducer.subtotal);
 
   useEffect(() => {
     fetch(URL)
       .then(resp => resp.json())
       .then(data => {
-
-        const mains = data.digestData.mains;
-        dispatch(actionSetMain(mains))
-
+        const mains = data.digestData.mains.map(dish => {
+          let foodOBJ = {
+            name: dish.name,
+            title: dish.title,
+            ingredients: dish.ingredients,
+            productPrice: dish.productOptions[0].price
+          };
+          return foodOBJ;
+        });
+        dispatch(actionSetMain(mains));
       });
   }, []);
 
+  const headerFlatList = () => (
+    <View style={styles.titleContainer}>
+      <Text style={styles.titleLayout}>Build Your Own Bowl</Text>
+      <Text>
+        Select Your toppings. Served with your choice of protein & grains
+      </Text>
+    </View>
+  );
+
+  const checkoutLabel = () => (
+    <TouchableOpacity
+      onPress={()=> console.log("Navigating to cart...")}
+    >
+      <CheckoutLabel subtotal={subtotal} />
+    </TouchableOpacity>
+  )
+
   return (
     <View style={styles.container}>
-      <ScrollView
-        style={styles.container}
+      <SafeAreaView
+        style={[styles.container, styles.safeAreaContainer]}
         contentContainerStyle={styles.contentContainer}
       >
-        <View style={styles.titleContainer}>
-          <Text style={styles.titleLayout}>Build Your Own Bowl</Text>
-          <Text>
-            Select Your toppings. Served with your choice of protein & grains
-          </Text>
-        </View>
         <FlatList
+          ListHeaderComponent={headerFlatList()}
           data={main}
-          renderItem={({ item, index }) => <Cell item={item} key={index}/>}
+          renderItem={({ item, index }) => <Cell item={item} key={index} />}
+          keyExtractor={(item, index) => index.toString()}
         />
-      </ScrollView>
+      </SafeAreaView>
 
-      <View style={styles.containerButtons}>
-        <LogInButton title="log in" />
-        <SingUpButton title="Sign up" />
-      </View>
+      {/*<View style={styles.containerButtons}>
+      <LogInButton title="log in" />
+      <SingUpButton title="Sign up" />
+      </View>*/}
+      {subtotal ? checkoutLabel() : null}
     </View>
   );
 }
@@ -68,6 +89,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff"
+  },
+  safeAreaContainer: {
+    // marginBottom: 100
   },
   titleContainer: {
     margin: 20

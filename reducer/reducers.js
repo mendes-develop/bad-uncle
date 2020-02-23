@@ -8,7 +8,7 @@ const initialUserState = {
 
 
 const initialOrderState = {
-    orders: [], //order {id: 1, meal: meal[n]}
+    orders: [], 
     subtotal: 0
 }
 
@@ -43,7 +43,8 @@ export function orderReducer(state = initialOrderState, action){
         case addOrder:
         return {
             ...state,
-            orders: [...state.orders, action.payload]
+            orders: [...state.orders, action.payload.order],
+            subtotal: state.subtotal += parseFloat(action.payload.subtotal)
         }
         case removeOrder:
         return {
