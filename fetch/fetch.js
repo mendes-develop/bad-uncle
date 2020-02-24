@@ -1,25 +1,33 @@
-import { AsyncStorage } from 'react-native'
+import { AsyncStorage } from "react-native";
 
-export const _storeData = async (phone) => {
-    console.log("storing user Async Storage")
-    try {
-        await AsyncStorage.setItem('phone', phone);
-    } catch (error) {
-        console.log("Error saving data") 
-        console.log(error)
-    }
-        
-} 
+export const _storeData = async phone => {
+  console.log("storing user Async Storage");
+  try {
+    await AsyncStorage.setItem("phone", phone);
+  } catch (error) {
+    console.log("Error saving data");
+    console.log(error);
+  }
+};
 
-    // fetch the data back asynchronously
+// fetch the data back asynchronously
 export const _retrieveData = async () => {
-        try {
-            const value = await AsyncStorage.getItem('phone');
-            if (value !== null) {
-                // Our data is fetched successfully
-                console.log("coming from AsyncStorage:", value);
-            }
-        } catch (error) {
-            // Error retrieving data
-        }
+  try {
+    const value = await AsyncStorage.getItem("phone");
+    if (value !== null) {
+      // Our data is fetched successfully
+      console.log("coming from AsyncStorage:", value);
     }
+  } catch (error) {
+    // Error retrieving data
+  }
+};
+
+export const _deleteData = async () => {
+  try {
+    await AsyncStorage.removeItem("phone");
+    console.log("Data removed from AsyncStorage")
+  } catch (error){
+      console.log(error)
+  }
+};

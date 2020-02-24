@@ -18,6 +18,22 @@ import BottomTabNavigator from './navigation/BottomTabNavigator';
 import SigningNavigator from './navigation/SigningNavigator'
 import useLinking from './navigation/useLinking';
 
+// AWS Amplify
+import Amplify from 'aws-amplify'
+import config from './config.json'
+
+Amplify.configure({
+  Auth: {
+    mandatorySignId: false,
+    region: config.cognito.REGION,
+    userPoolId: config.cognito.USER_POOL_ID,
+    userPoolWebClientId: config.cognito.APP_CLIENT_ID,
+    authenticationFlowType: config.cognito.AUTHENTICATION_FLOW_TYPE,
+    mandatorySignIn: false
+
+  }
+})
+
 // Navigation Stacks
 const RootStack = createStackNavigator();
 const MainStack = createStackNavigator();

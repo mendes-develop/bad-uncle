@@ -2,20 +2,44 @@ import React, { useState } from 'react';
 import {View, Text, TextInput, StyleSheet, TouchableOpacity} from 'react-native'
 import { ScrollView } from "react-native-gesture-handler";
 import {_storeData} from '../fetch/fetch'
+import {Auth} from 'aws-amplify'
+import { useNavigation } from '@react-navigation/native';
 
 export default function SignupPage(){
 
-    const [phone, setPhone] = useState('')
+    const [phoneNumber, setPhoneNumber] = useState('')
     const [password, setPassword] = useState('')
-    // const [send, setSend] = useState(false)
+    const [errors, setErrors] = useState('')
+    const navigation = useNavigation()
 
     const readyToSend = () => {
-        if (password.length > 6 && phone.length === 10) return true
+        if (password.length > 6 && phoneNumber.length === 10) return true
         return false
     }
 
-    const  postingUser =  (userPhone) => {
-        _storeData(userPhone) 
+    const  postingUser = async () => {
+
+        let phone = '+1' + phoneNumber
+        setErrors('')
+
+        try {
+            const signupResponse = await Auth.signUp({
+                username: phone,
+                password,
+                attributes: {
+                    phone_number: phone,
+                }
+            })
+            // const { sessionToken } = await Auth.currentCredentials();
+            // console.log("------------------------------------", sessionToken)
+            console.log(signupResponse)
+            navigation.push("Main")
+        } catch(error) {
+            setErrors(error.message)
+        }
+
+        console.log("postingUser23")
+        // _storeData(userPhone) 
         
     }
 
@@ -23,8 +47,9 @@ export default function SignupPage(){
         <View style={styles.container}>
         <View>
             <Text>
-             10-digit phone number and minimum 6-character password
+             10-digit phoneNumber number and minimum 6-character password
             </Text>
+            <Text style={{color: "red"}}>{errors}</Text>
         </View>
         
             <ScrollView style={styles.textFields}>
@@ -34,10 +59,10 @@ export default function SignupPage(){
                     onSubmitEditing={()=> passwordInput.focus()}
                     keyboardType="number-pad"
                     autoCorrect={false}
-                    value={phone}
+                    value={phoneNumber}
                     onChangeText={text =>{ 
                         if (text.length > 10) return
-                        setPhone(text)
+                        setPhoneNumber(text)
                     }}
                 />
                 <TextInput style={styles.input}
@@ -50,7 +75,7 @@ export default function SignupPage(){
                 />
                 <TouchableOpacity 
                     onPress={()=> {
-                        if (readyToSend()) postingUser(phone)
+                        if (readyToSend()) postingUser()
                     }} 
                     style={[styles.buttonContainer, readyToSend() && styles.buttonSend]}
                 >

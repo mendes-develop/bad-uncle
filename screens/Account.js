@@ -11,13 +11,33 @@ import {
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import * as WebBrowser from "expo-web-browser";
+import { useNavigation } from "@react-navigation/native";
+import {_deleteData} from '../fetch/fetch'
+import {Auth} from 'aws-amplify'
 
 export default function Account() {
+  const navigation = useNavigation()
+
+  const handleLogOut = () => {
+
+    try {
+      Auth.signOut()
+
+      //remove items from global state
+      _deleteData()
+      navigation.navigate("Land")
+
+    } catch(error){
+
+    }
+
+  }
+
   return (
     <View style={styles.container}>
       <Button
         title="Press me"
-        onPress={() => Alert.alert("Simple Button pressed")}
+        onPress={() => handleLogOut()}
         style={styles.logOutButton}
       />
     </View>
