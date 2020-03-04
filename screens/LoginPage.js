@@ -5,9 +5,13 @@ import { ScrollView } from "react-native-gesture-handler";
 import {_storeData} from '../fetch/fetch'
 import {Auth} from 'aws-amplify'
 import { useNavigation } from '@react-navigation/native';
+import {useDispatch} from 'react-redux'
+import { actionAddUserID, actionChangeLogged} from '../reducer/actionCreators';
+
 
 export default function LoginPage(){
 
+    const dispatch = useDispatch()
     const [phoneNumber, setPhoneNumber] = useState('')
     const [password, setPassword] = useState('')
     const [errors, setErrors] = useState('')
@@ -25,14 +29,18 @@ export default function LoginPage(){
 
         try {
             const signupResponse = await Auth.signIn(phone, password)
-            console.log(signupResponse)
+            console.log(signupResponse.pool.clientId) //  61 "client_id": "74bivbh0qdv2493plpl8ev9apq",
+
+            dispatch(actionAddUserID(signupResponse.pool.clientId))
+            dispatch(actionChangeLogged(true))
             navigation.push("Main")
+
         } catch(error) {
             console.log(error)
             setErrors(error.message)
         }
 
-        console.log("postingUser")
+        // console.log("postingUser")
         // _storeData(userPhone) 
         
     }

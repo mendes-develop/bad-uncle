@@ -12,34 +12,42 @@ import {
 import { ScrollView } from "react-native-gesture-handler";
 import * as WebBrowser from "expo-web-browser";
 import { useNavigation } from "@react-navigation/native";
-import {_deleteData} from '../fetch/fetch'
-import {Auth} from 'aws-amplify'
+import { _deleteData } from "../fetch/fetch";
+import { Auth } from "aws-amplify";
+import { actionAddUserID, actionChangeLogged } from "../reducer/actionCreators";
+import { useDispatch, useSelector } from "react-redux";
+import SigningButtons from "../components/SigningButtons";
 
 export default function Account() {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
+  const isLogged = useSelector(state => state.userReducer.isLogged);
+  const dispatch = useDispatch();
 
   const handleLogOut = () => {
-
     try {
-      Auth.signOut()
+      Auth.signOut();
 
       //remove items from global state
-      _deleteData()
-      navigation.navigate("Land")
-
-    } catch(error){
-
+      // _deleteData()
+      dispatch(actionAddUserID(""));
+      dispatch(actionChangeLogged(false));
+      navigation.navigate("Land");
+    } catch (error) {
+      console.log(error)
     }
-
-  }
+  };
 
   return (
     <View style={styles.container}>
-      <Button
-        title="Press me"
-        onPress={() => handleLogOut()}
-        style={styles.logOutButton}
-      />
+      {isLogged ? (
+        <Button
+          title="Log out"
+          onPress={() => handleLogOut()}
+          style={styles.logOutButton}
+        />
+      ) : (
+        <SigningButtons />
+      )}
     </View>
   );
 }

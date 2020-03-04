@@ -1,8 +1,11 @@
-import {addUserName, addUserPhone, addOrder, removeOrder, setMain} from './actionTypes'
+import {createStore, combineReducers} from 'redux'
+import {addUserID, addUserPhone, addOrder, removeOrder, setMain, addToken, changeLogged} from './actionTypes'
 
 const initialUserState = {
-    name: "",
-    phone: ""
+    id: "",
+    phone: "",
+    token: "",
+    isLogged: false
 }
 
 
@@ -21,24 +24,34 @@ const initialMainState = {
 
 
 
-export function userReducer(state = initialUserState, action){
+function userReducer(state = initialUserState, action){
     switch(action.type){
-        case addUserName:
+        case addUserID:
         return {
             ...state,
-            name: action.payload
+            id: action.payload
         }
         case addUserPhone:
         return {
             ...state,
             phone: action.payload
         }
+        case addToken :
+            return {
+                ...state,
+                toke: action.payload
+            }
+        case changeLogged:
+            return {
+                ...state,
+                isLogged: action.payload
+            }
         default: return state
     }
 
 }
 
-export function orderReducer(state = initialOrderState, action){
+function orderReducer(state = initialOrderState, action){
     switch(action.type){
         case addOrder:
         return {
@@ -49,13 +62,14 @@ export function orderReducer(state = initialOrderState, action){
         case removeOrder:
         return {
             ...state,
-            orders: state.orders.filter(order => order !== action.payload) 
+            orders: state.orders.filter(order => order !== action.payload.order),
+            subtotal : state.subtotal -= parseInt(action.payload.subtotal)
         }
         default: return state
     }
 }
 
-export function mainReducer(state = initialMainState, action){
+function mainReducer(state = initialMainState, action){
     switch(action.type){
         case setMain:
         return {
@@ -66,3 +80,9 @@ export function mainReducer(state = initialMainState, action){
         default: return state
     }
 }
+
+const store = createStore(
+    combineReducers({userReducer, orderReducer, mainReducer})
+)
+
+export default store

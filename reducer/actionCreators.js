@@ -1,8 +1,20 @@
-import {addUserName, addUserPhone, addOrder, removeOrder, setMain} from './actionTypes'
+import {addUserID, addUserPhone, addOrder, removeOrder, setMain, changeLogged, addToken} from './actionTypes'
 
-export function actionAddUsername(data){
+export function actionAddUserID(data){
     return {
-        type: addUserName,
+        type: addUserID,
+        payload: data
+    }
+}
+export function actionAddToken(data){
+    return {
+        type: addToken,
+        payload: data
+    }
+}
+export function actionChangeLogged(data){
+    return {
+        type: changeLogged,
         payload: data
     }
 }

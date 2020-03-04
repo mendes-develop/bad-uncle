@@ -8,54 +8,55 @@ import {
   View,
   FlatList
 } from "react-native";
-import Swipeout from 'react-native-swipeout';
-import {useDispatch} from 'react-redux'
-import {actionRemoveOrder} from '../reducer/actionCreators'
+import { Swipeable } from "react-native-gesture-handler";
+import { useDispatch } from "react-redux";
+import { actionRemoveOrder } from "../reducer/actionCreators";
 
 export default function CellCart({ item }) {
+  const dispatch = useDispatch();
 
-    const dispatch = useDispatch()
+  const RightAction = () => (
+    <TouchableOpacity
+      style={styles.rightAction}
+      onPress={() => deletingItem()}
+    >
+      <Text style={styles.actionText}>Delete</Text>
+    </TouchableOpacity>
+  );
 
-    let swipeBtns = [
-        {
-            text: "Delete",
-            backgroundColor: "red",
-            underlayColor: "black",
-            onPress: () => {
-                deletingItem(item);
-            }
-        }
-    ];
+  const deletingItem = () => {
+    console.log(item);
+    let orderTotal = item.item.productPrice * item.itemQuantity
 
-  const deletingItem = (itemBeingDeleted) => {
-      console.log("Deleting Item")
-      dispatch(actionRemoveOrder(itemBeingDeleted))
-  }
+    let order = {
+      order: item,
+      subtotal : orderTotal
+    }
+    dispatch(actionRemoveOrder(order))
+  };
 
-//   console.log("from cellcart", item);
+  //   console.log("from cellcart", item);
 
   return (
-      
-        <Swipeout right={swipeBtns} autoClose={true} backgroundColor="transparent">
-            <View style={styles.cellStyles}>
-            <View style={styles.imageContainer}>
-                <Image
-                style={{ width: 50, height: 50 }}
-                source={{
-                    uri: "https://facebook.github.io/react-native/img/tiny_logo.png"
-                }}
-                />
-            </View>
-            <View style={styles.nameContainer}>
-                <Text>{item.item.name}</Text>
-                <Text>{item.itemQuantity}</Text>
-            </View>
-            <View style={styles.priceContainer}>
-                <Text>{item.item.productPrice}</Text>
-            </View>
-            </View>
-            </Swipeout>
-      
+    <Swipeable renderRightActions={RightAction}>
+      <View style={styles.cellStyles}>
+        <View style={styles.imageContainer}>
+          <Image
+            style={{ width: 50, height: 50 }}
+            source={{
+              uri: "https://facebook.github.io/react-native/img/tiny_logo.png"
+            }}
+          />
+        </View>
+        <View style={styles.nameContainer}>
+          <Text>{item.item.name}</Text>
+          <Text>{item.itemQuantity}</Text>
+        </View>
+        <View style={styles.priceContainer}>
+          <Text>{`$${(item.item.productPrice/100).toFixed(2)}`}</Text>
+        </View>
+      </View>
+    </Swipeable>
   );
 }
 
@@ -64,7 +65,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     borderColor: "#F3F3F3",
     borderBottomWidth: 1,
-    padding: 5
+    padding: 5,
+    backgroundColor: "#fff"
   },
   imageContainer: {
     padding: 10,
@@ -78,5 +80,15 @@ const styles = StyleSheet.create({
   priceContainer: {
     padding: 10,
     flex: 1
+  },
+  rightAction: {
+    backgroundColor: "#dd2c00",
+    justifyContent: "center",
+    alignItems: "flex-end"
+  },
+  actionText: {
+    color: "#fff",
+    fontWeight: "600",
+    padding: 20
   }
 });

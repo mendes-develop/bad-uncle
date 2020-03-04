@@ -4,6 +4,8 @@ import { ScrollView } from "react-native-gesture-handler";
 import {_storeData} from '../fetch/fetch'
 import {Auth} from 'aws-amplify'
 import { useNavigation } from '@react-navigation/native';
+import {useDispatch} from 'react-redux'
+import { actionAddUserID, actionChangeLogged} from '../reducer/actionCreators';
 
 export default function SignupPage(){
 
@@ -11,6 +13,7 @@ export default function SignupPage(){
     const [password, setPassword] = useState('')
     const [errors, setErrors] = useState('')
     const navigation = useNavigation()
+    const dispatch = useDispatch()
 
     const readyToSend = () => {
         if (password.length > 6 && phoneNumber.length === 10) return true
@@ -32,15 +35,16 @@ export default function SignupPage(){
             })
             // const { sessionToken } = await Auth.currentCredentials();
             // console.log("------------------------------------", sessionToken)
-            console.log(signupResponse)
+            console.log(signupResponse.user.pool.clientId)//  end 66 74bivbh0qdv2493plpl8ev9apq
+            
+            dispatch(actionAddUserID(signupResponse.user.pool.clientId))
+            dispatch(actionChangeLogged(true))
             navigation.push("Main")
+
         } catch(error) {
             setErrors(error.message)
         }
-
-        console.log("postingUser23")
-        // _storeData(userPhone) 
-        
+        // _storeData(userPhone)  
     }
 
     return (

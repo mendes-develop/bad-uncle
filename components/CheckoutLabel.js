@@ -6,7 +6,7 @@ export default function CheckoutLabel ({subtotal}){
   return (
     <View style={styles.totalContainer}>
       <Text style={styles.text}>
-        Your total is: <Text style={styles.price}>${subtotal}</Text>
+        Your total is: <Text style={styles.price}>${(subtotal/100).toFixed(2)}</Text>
       </Text>
     </View>
   ); 

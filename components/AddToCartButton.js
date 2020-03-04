@@ -1,22 +1,29 @@
 import * as React from "react";
-import {
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  View
-} from "react-native";
+import { Text, TouchableOpacity, StyleSheet, View } from "react-native";
 
-export default function AddToCartButton({total, loading}){
-
+export default function AddToCartButton({ total, loading, addingToCart, item }) {
   // let total = '$22.50'
   // console.log(loading)
 
-    return (
-      <View  style={[styles.button, loading ? styles.disableButton  : styles.activeButton ]}>
-        <Text style={[styles.signupText, styles.buttonText]}>{loading ? 'Adding to Bag...' : `Add to Bag - $${total}`}</Text>
+  return (
+    <TouchableOpacity
+      style={styles.addButtonContainer}
+      onPress={() => addingToCart(item)}
+      disabled={loading}
+    >
+      <View
+        style={[
+          styles.button,
+          loading ? styles.disableButton : styles.activeButton
+        ]}
+      >
+        <Text style={[styles.signupText, styles.buttonText]}>
+          {loading ? "Adding to Bag..." : `Add to Bag - $${total}`}
+        </Text>
       </View>
-    );
-};
+    </TouchableOpacity>
+  );
+}
 
 const styles = StyleSheet.create({
   button: {
@@ -29,7 +36,7 @@ const styles = StyleSheet.create({
     marginVertical: 5
   },
   activeButton: {
-    backgroundColor: "#05db6a",
+    backgroundColor: "#05db6a"
   },
   disableButton: {
     backgroundColor: "rgba(5, 219, 106, 0.6)"
@@ -37,8 +44,10 @@ const styles = StyleSheet.create({
   buttonText: {
     textAlign: "center",
     fontSize: 15,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: "#ecf0f1"
   },
-    
-})
+  addButtonContainer: {
+    backgroundColor: "rgba(52, 52, 52, 0.0)"
+  }
+});

@@ -1,24 +1,27 @@
-// import React from 'react'
-// import App from './App'
+// imports related to Redux
 import { Provider } from 'react-redux'
-import {createStore, combineReducers} from 'redux'
-import {userReducer, orderReducer, mainReducer} from './reducer/reducers'
+import store from './reducer/reducers'
+// store.subscribe(()=> {
+//     console.log("store updated!", store.getState().orderReducer)
+// })
 
 import * as React from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
-import { _retrieveData } from './fetch/fetch'
-import { SplashScreen } from 'expo';
 import * as Font from 'expo-font';
+import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { SplashScreen } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+
+// AsyncStorage Method to retrieve data
+import { _retrieveData } from './fetch/fetch'
 
 //Navigation Controllers
 import BottomTabNavigator from './navigation/BottomTabNavigator';
 import SigningNavigator from './navigation/SigningNavigator'
 import useLinking from './navigation/useLinking';
 
-// AWS Amplify
+// AWS Amplify and Configuration
 import Amplify from 'aws-amplify'
 import config from './config.json'
 
@@ -39,15 +42,9 @@ const RootStack = createStackNavigator();
 const MainStack = createStackNavigator();
 const LandStack = createStackNavigator();
 
-const store = createStore(
-  combineReducers({userReducer, orderReducer, mainReducer})
-)
-
-// store.subscribe(()=> {
-//     console.log("store updated!", store.getState().orderReducer)
-// })
 
 export default function App(props) {
+  
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
   const [initialNavigationState, setInitialNavigationState] = React.useState();
   const containerRef = React.useRef();

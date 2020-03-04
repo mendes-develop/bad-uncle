@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
-import { LogInButton, SingUpButton } from "../components/SigningButtons";
+import SigningButtons from "../components/SigningButtons";
 
 export default function LandScreen({navigation}) {
   return (
@@ -26,13 +26,7 @@ export default function LandScreen({navigation}) {
       </View>
 
       <View style={styles.containerBottom}>
-        <View style={styles.containerButtons}>
-        
-          <LogInButton title="Log in" navigation={navigation}/>
-          <SingUpButton title="Sign up" navigation={navigation}/>
-        
-          
-        </View>
+        <SigningButtons />
         <TouchableOpacity
           onPress={()=> navigation.navigate('Main')}
         >
@@ -69,11 +63,6 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
 
-  containerButtons: {
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    marginBottom: 10
-  },
   bottomText: {
     fontSize: 15,
     marginTop: 10,
